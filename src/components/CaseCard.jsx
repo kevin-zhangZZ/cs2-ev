@@ -10,7 +10,7 @@ const RARITY_LABELS = {
 };
 
 function fmt(n) {
-  return n == null ? '—' : `$${n.toFixed(2)}`;
+  return n == null ? '—' : `A$${n.toFixed(2)}`;
 }
 
 function pct(n) {

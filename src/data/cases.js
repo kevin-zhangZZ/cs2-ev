@@ -34,8 +34,8 @@ export const RARITY_PROBS = {
 // StatTrak probability for non-rare-special skins
 export const STATTRAK_PROB = 0.1;
 
-// Key price (USD) — updated periodically
-export const KEY_PRICE = 2.49;
+// Key price (AUD) — updated periodically
+export const KEY_PRICE = 3.85;
 
 // Each skin entry: { name, stattrak: true/false }
 // name must match Steam market hash name minus wear suffix.

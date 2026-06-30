@@ -57,7 +57,7 @@ export default function App() {
         <h1>CS2 Case EV Calculator</h1>
         <p className="subtitle">
           Expected value of opening CS2 cases based on Steam Market prices.
-          Steam&apos;s {(STEAM_FEE * 100).toFixed(0)}% marketplace fee is factored into all returns.
+          All prices in AUD. Steam&apos;s {(STEAM_FEE * 100).toFixed(0)}% marketplace fee is factored into all returns.
         </p>
         {lastUpdated && (
           <p className="last-updated">

@@ -22,7 +22,7 @@ const { CASES, getAllSkinNames } = await import('../src/data/cases.js');
 
 const STEAM_API = 'https://steamcommunity.com/market/priceoverview/';
 const APP_ID    = 730;   // CS2
-const CURRENCY  = 1;     // USD
+const CURRENCY  = 3;     // AUD
 
 const DELAY_MS  = 1200;  // ms between requests (stay under rate limit)
 const RETRY_MS  = 10000; // ms to wait after a 429
