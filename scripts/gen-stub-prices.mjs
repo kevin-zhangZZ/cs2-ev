@@ -20,12 +20,24 @@ const knifeST     = [560, 350, 220, 160, 130];
 
 const prices = {};
 
+// Approximate AUD prices (stubs only — run fetch-prices.mjs for real values)
 const casePrices = {
-  'Revolution Case': 1.89,
-  'Recoil Case': 0.25,
-  'Dreams & Nightmares Case': 0.85,
-  'Fracture Case': 0.15,
-  'Prisma 2 Case': 0.17,
+  'Revolution Case':          2.90,
+  'Recoil Case':              0.40,
+  'Dreams & Nightmares Case': 2.56,
+  'Fracture Case':            0.25,
+  'Snakebite Case':           0.55,
+  'Prisma 2 Case':            0.28,
+  'CS20 Case':                0.65,
+  'Shattered Web Case':       2.30,
+  'Prisma Case':              0.38,
+  'Horizon Case':             0.40,
+  'Danger Zone Case':         0.35,
+  'Clutch Case':              0.50,
+  'Spectrum 2 Case':          0.60,
+  'Glove Case':               4.50,
+  'Gamma 2 Case':             0.80,
+  'Gamma Case':               1.20,
 };
 
 for (const [name, price] of Object.entries(casePrices)) {
