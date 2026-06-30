@@ -19,7 +19,7 @@ export default function App() {
   const [sortAsc, setSortAsc]       = useState(false);
 
   useEffect(() => {
-    fetch('/prices.json')
+    fetch(`${import.meta.env.BASE_URL}prices.json`)
       .then(r => {
         if (!r.ok) throw new Error(`prices.json not found (${r.status})`);
         return r.json();
