@@ -9,7 +9,7 @@
  * Run it periodically (e.g. weekly) to refresh the cached prices.
  */
 
-import { writeFileSync, mkdirSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
 
@@ -54,14 +54,35 @@ async function fetchPrice(marketHashName) {
   return null;
 }
 
+function loadExisting() {
+  if (existsSync(OUTPUT)) {
+    try {
+      const data = JSON.parse(readFileSync(OUTPUT, 'utf8'));
+      return data.prices ?? {};
+    } catch { return {}; }
+  }
+  return {};
+}
+
+function saveProgress(prices) {
+  mkdirSync(path.join(__dirname, '..', 'public'), { recursive: true });
+  writeFileSync(OUTPUT, JSON.stringify({ lastUpdated: new Date().toISOString(), prices }, null, 2));
+}
+
 async function main() {
   const allNames = getAllSkinNames(CASES);
-  console.log(`Fetching prices for ${allNames.length} items…`);
+  const prices = loadExisting();
+  const remaining = allNames.filter(n => !(n in prices));
 
-  const prices = {};
-  let done = 0;
+  console.log(`Total items: ${allNames.length} | Already fetched: ${allNames.length - remaining.length} | Remaining: ${remaining.length}`);
+  if (remaining.length === 0) {
+    console.log('All prices already fetched. Delete public/prices.json to re-fetch from scratch.');
+    return;
+  }
 
-  for (const name of allNames) {
+  let done = allNames.length - remaining.length;
+
+  for (const name of remaining) {
     const price = await fetchPrice(name);
     if (price != null) {
       prices[name] = price;
@@ -69,12 +90,12 @@ async function main() {
     } else {
       console.log(`[${++done}/${allNames.length}] NOT FOUND  ${name}`);
     }
+    // Save after every successful fetch so progress is never lost
+    saveProgress(prices);
     await sleep(DELAY_MS);
   }
 
-  mkdirSync(path.join(__dirname, '..', 'public'), { recursive: true });
-  writeFileSync(OUTPUT, JSON.stringify({ lastUpdated: new Date().toISOString(), prices }, null, 2));
-  console.log(`\nSaved ${Object.keys(prices).length} prices to ${OUTPUT}`);
+  console.log(`\nDone. Saved ${Object.keys(prices).length} prices to ${OUTPUT}`);
 }
 
 main().catch(err => { console.error(err); process.exit(1); });
