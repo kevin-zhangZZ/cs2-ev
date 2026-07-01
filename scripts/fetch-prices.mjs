@@ -22,10 +22,10 @@ const { CASES, getAllSkinNames } = await import('../src/data/cases.js');
 
 const STEAM_API = 'https://steamcommunity.com/market/priceoverview/';
 const APP_ID    = 730;   // CS2
-const CURRENCY  = 3;     // AUD
+const CURRENCY  = 21;    // AUD
 
-const DELAY_MS  = 1200;  // ms between requests (stay under rate limit)
-const RETRY_MS  = 10000; // ms to wait after a 429
+const DELAY_MS  = 3000;  // ms between requests (stay under rate limit)
+const RETRY_MS  = 30000; // ms to wait after a 429
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -46,10 +46,14 @@ async function fetchPrice(marketHashName) {
     }
     const data = await res.json();
     if (!data.success) return null;
-    // Parse "$12.34" → 12.34
+    // Parse "A$ 12.34" → 12.34
     const raw = data.median_price ?? data.lowest_price;
     if (!raw) return null;
-    return parseFloat(raw.replace(/[^0-9.]/g, ''));
+    // Remove currency symbols and spaces, keep digits and the last separator
+    const digits = raw.replace(/[^0-9.,]/g, '');
+    // Handle formats: "12.34" (dot decimal) or "12,34" (comma decimal)
+    const normalized = digits.includes('.') ? digits.replace(/,/g, '') : digits.replace(',', '.');
+    return parseFloat(normalized);
   }
   return null;
 }

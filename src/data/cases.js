@@ -680,7 +680,7 @@ export function getAllSkinNames(cases) {
           for (const w of WEAR_SUFFIXES) names.add(`${skin.name} ${w}`);
           if (skin.stattrak) {
             const parts = skin.name.split(' | ');
-            const stName = `${parts[0]} | StatTrak™ ${parts[1]}`;
+            const stName = `StatTrak™ ${parts[0]} | ${parts[1]}`;
             for (const w of WEAR_SUFFIXES) names.add(`${stName} ${w}`);
           }
         }

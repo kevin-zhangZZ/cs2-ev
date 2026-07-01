@@ -28,7 +28,7 @@ function skinEV(skinName, hasStatTrak, prices) {
       stName = skinName.replace('★ ', '★ StatTrak™ ');
     } else {
       const parts = skinName.split(' | ');
-      stName = `${parts[0]} | StatTrak™ ${parts[1]}`;
+      stName = `StatTrak™ ${parts[0]} | ${parts[1]}`;
     }
     let stEV = 0;
     for (let i = 0; i < WEAR_SUFFIXES.length; i++) {
